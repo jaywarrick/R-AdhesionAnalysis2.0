@@ -3,6 +3,7 @@ source('D:/GitHub/R-General/.Rprofile')
 source('D:/GitHub/R-Adhesion2/ParticleTracking/R/PackageFunctions.R')
 source('D:/GitHub/R-CPD/cpd/R/cpd.R')
 library(parallel)
+library(data.table)
 
 # library(foreign)
 # fileTable <- read.arff('G:/Jex/Brightfield Adhesion II/temp/JEXData0000000121.arff')
@@ -106,16 +107,6 @@ getDiffWrapper <- function(amplitudes, freq, signal, ct, c, by)
 }
 
 # Test getting the best fit freq
-l(amp, freq) %=% getDiffWrapper(seq(0.5, 1.5, by=0.05), freq=duh$Freq, signal=duh$FilteredSignal)
+# l(amp, freq) %=% getDiffWrapper(seq(0.5, 1.5, by=0.05), freq=duh$Freq, signal=duh$FilteredSignal)
 
-summary <- temp[,getDiffWrapper(seq(0.5, 1.5, by=0.05), freq=duh$Freq, signal=duh$FilteredSignal, ct=CellType[1], c=Color[1], by=.BY), by=.(Surface, Rep, Point)]
-
-getDiff(1.1, duh$FilteredSignal, getPredMat(duh$FilteredSignal))
-
-optim(par=c(1), method='L-BFGS-B', lower=c(0.5, 1.5), getDiff, duh$FilteredSignal, getPredMat(duh$FilteredSignal))
-
-getFit <- function(freq, signal)
-{
-	initialGuessI <- which(signal > 0.5)[1]
-	initialGuess <- c(1,freq[initialGuessI])
-}
+summary <- temp[,getDiffWrapper(seq(0.5, 1.5, by=0.05), freq=Freq, signal=FilteredSignal, ct=CellType[1], c=Color[1], by=.BY), by=.(Surface, Rep, Point)]
